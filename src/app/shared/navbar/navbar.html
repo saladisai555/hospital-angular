@@ -1,0 +1,59 @@
+<nav class="navbar">
+
+  <div class="logo">
+    MediCare
+  </div>
+
+  <div class="nav-links">
+
+    <a
+      *ngIf="authService.isPatient()"
+      [routerLink]="doctorsRoute"
+      routerLinkActive="active">
+
+      Doctors
+
+    </a>
+    <a
+  *ngIf="authService.isPatient()"
+  [routerLink]="patientAppointmentsRoute"
+  routerLinkActive="active">
+
+  My Appointments
+
+</a><a
+  *ngIf="authService.isPatient()"
+  [routerLink]="patientAppointmentsRoute"
+  routerLinkActive="active">
+
+  My Appointments
+
+</a>
+
+    <a
+      *ngIf="!authService.isLoggedIn()"
+      [routerLink]="loginRoute"
+      routerLinkActive="active">
+
+      Login
+
+    </a>
+
+    <span
+      *ngIf="authService.isLoggedIn()">
+
+      {{ authService.getUser()?.name }}
+
+    </span>
+
+    <button
+      *ngIf="authService.isLoggedIn()"
+      (click)="logout()">
+
+      Logout
+
+    </button>
+
+  </div>
+
+</nav>

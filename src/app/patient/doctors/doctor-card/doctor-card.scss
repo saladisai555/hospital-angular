@@ -1,0 +1,89 @@
+.doctor-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.07);
+
+  transition: transform 0.2s;
+}
+
+.doctor-card:hover {
+  transform: translateY(-3px);
+}
+
+.doctor-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+}
+
+.doctor-avatar {
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.doctor-header h2 {
+  margin: 0;
+
+  font-size: 19px;
+}
+
+.doctor-header p {
+  margin: 5px 0 0;
+
+  color: #666;
+}
+
+.doctor-info p {
+  margin: 10px 0;
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+
+.inactive {
+  color: red;
+  font-weight: bold;
+}
+
+.doctor-card button {
+  width: 100%;
+
+  margin-top: 15px;
+
+  padding: 11px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: white;
+
+  cursor: pointer;
+}

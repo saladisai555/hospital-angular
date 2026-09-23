@@ -1,0 +1,262 @@
+<div class="auth-page">
+
+  <p-card
+    [style]="{
+      width: '100%',
+      'max-width': '720px'
+    }"
+    styleClass="auth-card">
+
+    <!-- Header -->
+
+    <div class="auth-header">
+
+      <h1>
+        Create Account
+      </h1>
+
+      <p class="subtitle">
+        Register as a patient
+      </p>
+
+    </div>
+
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form">
+
+
+      <!-- Name -->
+
+      <div class="form-group">
+
+        <label for="name">
+          Name
+        </label>
+
+        <input
+          pInputText
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter your name"
+          class="native-control"
+        />
+
+        <small
+          class="field-error"
+          *ngIf="
+            registerForm.get('name')?.touched &&
+            registerForm.get('name')?.invalid
+          ">
+          Name is required.
+        </small>
+
+      </div>
+
+
+      <!-- Email -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          pInputText
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="native-control"
+        />
+
+        <small
+          class="field-error"
+          *ngIf="
+            registerForm.get('email')?.touched &&
+            registerForm.get('email')?.invalid
+          ">
+          Enter a valid email.
+        </small>
+
+      </div>
+
+
+      <!-- Password -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <p-password
+          inputId="password"
+          formControlName="password"
+          placeholder="Minimum 8 characters"
+          [feedback]="false"
+          [toggleMask]="true"
+          [style]="{ width: '100%' }"
+          styleClass="full-control">
+        </p-password>
+
+        <small
+          class="field-error"
+          *ngIf="
+            registerForm.get('password')?.touched &&
+            registerForm.get('password')?.invalid
+          ">
+          Password must contain at least 8 characters.
+        </small>
+
+      </div>
+
+
+      <!-- Phone -->
+
+      <div class="form-group">
+
+        <label for="phone">
+          Phone
+        </label>
+
+        <input
+          pInputText
+          id="phone"
+          type="tel"
+          formControlName="phone"
+          placeholder="Phone number"
+          class="native-control"
+        />
+
+        <small
+          class="field-error"
+          *ngIf="
+            registerForm.get('phone')?.touched &&
+            registerForm.get('phone')?.invalid
+          ">
+          Enter a valid phone number.
+        </small>
+
+      </div>
+
+
+      <!-- Date of Birth -->
+
+      <div class="form-group">
+
+        <label for="dateOfBirth">
+          Date of Birth
+        </label>
+
+        <p-datepicker
+          inputId="dateOfBirth"
+          formControlName="dateOfBirth"
+          placeholder="Select date of birth"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+          [style]="{ width: '100%' }"
+          styleClass="full-control">
+        </p-datepicker>
+
+      </div>
+
+
+      <!-- Gender -->
+
+      <div class="form-group">
+
+        <label for="gender">
+          Gender
+        </label>
+
+        <p-select
+          inputId="gender"
+          formControlName="gender"
+          [options]="genderOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select gender"
+          [style]="{ width: '100%' }"
+          styleClass="full-control">
+        </p-select>
+
+      </div>
+
+
+      <!-- Address -->
+
+      <div class="form-group address-group">
+
+        <label for="address">
+          Address
+        </label>
+
+        <textarea
+          pTextarea
+          id="address"
+          formControlName="address"
+          rows="4"
+          placeholder="Enter your address"
+          class="native-control address-control">
+        </textarea>
+
+      </div>
+
+
+      <!-- Messages -->
+
+      <div class="messages">
+
+        <p-message
+          *ngIf="errorMessage"
+          severity="error">
+          {{errorMessage}}
+        </p-message>
+
+        <p-message
+          *ngIf="successMessage"
+          severity="success"
+          >{{successMessage}}
+        </p-message>
+
+      </div>
+
+
+      <!-- Register Button -->
+
+      <p-button
+        type="submit"
+        label="Register"
+        icon="pi pi-user-plus"
+        [loading]="loading"
+        [disabled]="registerForm.invalid || loading"
+        [style]="{ width: '100%' }"
+        styleClass="register-button">
+      </p-button>
+
+
+    </form>
+
+
+    <!-- Login -->
+
+    <div class="login-link">
+
+      <span>
+        Already have an account?
+      </span>
+
+      <a [routerLink]="loginRoute">
+        Login
+      </a>
+
+    </div>
+
+  </p-card>
+
+</div>

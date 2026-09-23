@@ -1,0 +1,28 @@
+main {
+  min-height: calc(100vh - 65px);
+}
+
+.hero {
+  padding: 55px 40px;
+  text-align: center;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #38bdf8
+  );
+
+  color: white;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+
+  font-size: 36px;
+}
+
+.hero p {
+  margin: 0;
+
+  font-size: 18px;
+}

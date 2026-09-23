@@ -1,0 +1,269 @@
+<div class="appointments-page">
+
+  <!-- Page Header -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>My Appointments</h1>
+
+      <p>
+        View and manage your appointments.
+      </p>
+    </div>
+
+    <p-button
+      label="Find a Doctor"
+      icon="pi pi-user"
+      (onClick)="goToDoctors()">
+    </p-button>
+
+  </div>
+
+
+  <!-- Loading -->
+
+  <div
+    *ngIf="loading"
+    class="loading-message">
+
+    <i class="pi pi-spin pi-spinner"></i>
+
+    <span>
+      Loading your appointments...
+    </span>
+
+  </div>
+
+
+  <!-- Error -->
+
+  <div
+    *ngIf="!loading && errorMessage"
+    class="message-container">
+
+    <p-message
+      severity="error">{{errorMessage}}
+    </p-message>
+
+    <p-button
+      label="Try Again"
+      icon="pi pi-refresh"
+      severity="secondary"
+      (onClick)="loadAppointments()">
+    </p-button>
+
+  </div>
+
+
+  <!-- Success -->
+
+  <div
+    *ngIf="successMessage"
+    class="message-container">
+
+    <p-message
+      severity="success">
+      {{successMessage}}
+    </p-message>
+
+  </div>
+
+
+  <!-- Empty -->
+
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      appointments.length === 0
+    "
+    class="empty-state">
+
+    <p-card>
+
+      <div class="empty-content">
+
+        <i class="pi pi-calendar empty-icon"></i>
+
+        <h2>
+          No appointments found
+        </h2>
+
+        <p>
+          You have not booked any appointments yet.
+        </p>
+
+        <p-button
+          label="Find a Doctor"
+          icon="pi pi-user"
+          (onClick)="goToDoctors()">
+        </p-button>
+
+      </div>
+
+    </p-card>
+
+  </div>
+
+
+  <!-- Appointment List -->
+
+  <div
+    *ngIf="
+      !loading &&
+      appointments.length > 0
+    "
+    class="appointment-list">
+
+
+    <p-card
+      *ngFor="let appointment of appointments"
+      styleClass="appointment-card">
+
+
+      <!-- Appointment Header -->
+
+      <div class="appointment-header">
+
+        <div>
+
+          <h2>
+            Dr. {{ appointment.doctorName }}
+          </h2>
+
+          <p>
+            {{ appointment.departmentName }}
+          </p>
+
+        </div>
+
+
+        <p-tag
+          [value]="appointment.status"
+          [severity]="
+            appointment.status === 'BOOKED' ||
+            appointment.status === 'CONFIRMED'
+              ? 'info'
+              : appointment.status === 'CANCELLED'
+              ? 'danger'
+              : appointment.status === 'COMPLETED'
+              ? 'success'
+              : 'warn'
+          ">
+        </p-tag>
+
+      </div>
+
+
+      <!-- Appointment Details -->
+
+      <div class="appointment-details">
+
+        <div class="detail-item">
+
+          <i class="pi pi-calendar"></i>
+
+          <div>
+
+            <span class="detail-label">
+              Date
+            </span>
+
+            <span>
+              {{ appointment.appointmentDate }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <i class="pi pi-clock"></i>
+
+          <div>
+
+            <span class="detail-label">
+              Time
+            </span>
+
+            <span>
+              {{ appointment.startTime }}
+              -
+              {{ appointment.endTime }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="detail-item"
+          *ngIf="appointment.reason">
+
+          <i class="pi pi-comment"></i>
+
+          <div>
+
+            <span class="detail-label">
+              Reason
+            </span>
+
+            <span>
+              {{ appointment.reason }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="detail-item"
+          *ngIf="appointment.notes">
+
+          <i class="pi pi-file"></i>
+
+          <div>
+
+            <span class="detail-label">
+              Notes
+            </span>
+
+            <span>
+              {{ appointment.notes }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Cancel -->
+
+      <div
+        class="appointment-actions"
+        *ngIf="canCancel(appointment)">
+
+        <p-button
+          label="Cancel Appointment"
+          icon="pi pi-times"
+          severity="danger"
+          [loading]="cancellingId === appointment.id"
+          [disabled]="cancellingId !== null"
+          (onClick)="cancelAppointment(appointment.id)">
+        </p-button>
+
+      </div>
+
+
+    </p-card>
+
+  </div>
+
+</div>

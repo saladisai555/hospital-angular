@@ -1,0 +1,56 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.page h1 {
+  margin-bottom: 25px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  flex: 1;
+
+  padding: 12px 15px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 15px;
+}
+
+.search-box button {
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2563eb;
+  color: white;
+
+  cursor: pointer;
+}
+
+.doctor-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 25px;
+}
+
+.empty-message {
+  text-align: center;
+
+  padding: 40px;
+
+  color: #777;
+}

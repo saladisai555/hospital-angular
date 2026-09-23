@@ -1,0 +1,59 @@
+.auth-page {
+  min-height: 80vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.auth-header h1 {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #777;
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.field-error {
+  display: block;
+  margin-top: 5px;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.password-field {
+  width: 100%;
+}
+
+

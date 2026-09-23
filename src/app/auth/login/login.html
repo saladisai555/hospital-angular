@@ -1,0 +1,130 @@
+<div class="auth-page">
+
+  <p-card styleClass="auth-card">
+
+    <div class="auth-header">
+
+      <h1>Hospital Appointment System</h1>
+
+      <p class="subtitle">
+        Login to your account
+      </p>
+
+    </div>
+
+
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"><p-message *ngIf="errorMessage" severity="error">
+  {{ errorMessage }}
+</p-message>
+
+
+      <!-- Email -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          pInputText
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+
+        <small
+          class="field-error"
+          *ngIf="
+            loginForm.get('email')?.touched &&
+            loginForm.get('email')?.hasError('required')
+          ">
+          Email is required.
+        </small>
+
+        <small
+          class="field-error"
+          *ngIf="
+            loginForm.get('email')?.touched &&
+            loginForm.get('email')?.hasError('email')
+          ">
+          Enter a valid email.
+        </small>
+
+      </div>
+
+
+      <!-- Password -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <p-password
+          inputId="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="password-field">
+        </p-password>
+
+      <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+    
+    <small class="field-error" *ngIf="loginForm.get('password')?.hasError('required')">
+      Please enter a valid password.
+    </small>
+
+    <small class="field-error" *ngIf="loginForm.get('password')?.hasError('minlength')">
+      Password must be at least 8 characters.
+    </small>
+
+  </div>
+
+      </div>
+
+
+      <!-- Backend error -->
+      <p-message *ngIf="errorMessage" severity="error">
+  {{ errorMessage }}
+</p-message>
+
+
+
+
+      <!-- Login -->
+
+      <p-button
+        type="submit"
+        label="Login"
+        icon="pi pi-sign-in"
+        [loading]="loading"
+        [disabled]="loginForm.invalid || loading"
+        styleClass="login-button">
+      </p-button>
+
+    </form>
+
+
+    <!-- Register -->
+
+    <div class="register-link">
+
+      <span>
+        Don't have an account?
+      </span>
+
+      <a [routerLink]="registerRoute">
+        Register
+      </a>
+
+    </div>
+
+  </p-card>
+
+</div>

@@ -1,0 +1,115 @@
+<div class="page">
+
+  <h1>{{ title }}</h1>
+
+  <div class="search-box">
+
+    <input
+      type="text"
+      id=""
+      [(ngModel)]="searchText"
+      placeholder="Search by specialization">
+
+    <button
+      (click)="searchDoctors()"
+      [disabled]="loading">
+
+      Search
+
+    </button>
+
+  </div>
+
+
+  <div
+    *ngIf="loading"
+    class="loading-message">
+
+    <p>Loading doctors...</p>
+
+  </div>
+
+
+  <div
+    *ngIf="
+      !loading &&
+      errorMessage
+    "
+    class="error-message">
+
+    <p>{{ errorMessage }}</p>
+
+    <button
+      (click)="retryLoading()">
+
+      Try Again
+
+    </button>
+
+  </div>
+
+
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      doctors.length === 0
+    "
+    class="empty-message">
+
+    <p>No doctors found.</p>
+
+  </div>
+
+
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      doctors.length > 0
+    "
+    class="doctor-grid">
+
+    <app-doctor-card
+      *ngFor="let doctor of doctors"
+      [doctor]="doctor"
+      (viewDetails)="onViewDoctor($event)">
+    </app-doctor-card>
+
+  </div>
+
+
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      doctors.length > 0
+    "
+    class="pagination">
+
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 0">
+
+      Previous
+
+    </button>
+
+    <span>
+      Page {{ currentPage + 1 }}
+      of {{ totalPages }}
+    </span>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="
+        currentPage >= totalPages - 1
+      ">
+
+      Next
+
+    </button>
+
+  </div>
+
+</div>

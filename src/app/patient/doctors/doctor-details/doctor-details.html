@@ -1,0 +1,138 @@
+<div class="details-page">
+
+  <div
+    *ngIf="loading"
+    class="loading-message">
+
+    Loading doctor details...
+
+  </div>
+
+
+  <div
+    *ngIf="
+      !loading &&
+      errorMessage
+    "
+    class="error-message">
+
+    <p>
+      {{ errorMessage }}
+    </p>
+
+    <button
+      (click)="retryLoading()">
+
+      Try Again
+
+    </button>
+
+  </div>
+
+
+  <div
+    *ngIf="
+      !loading &&
+      !errorMessage &&
+      doctor
+    "
+    class="details-card">
+
+    <div class="doctor-avatar">
+
+      {{ doctor.name.charAt(0) }}
+
+    </div>
+
+
+    <div class="details-content">
+
+      <h1>
+        {{ doctor.name }}
+      </h1>
+
+      <h3>
+        {{ doctor.specialization }}
+      </h3>
+
+      <p>
+        <strong>
+          Department:
+        </strong>
+
+        {{ doctor.department.name }}
+      </p>
+
+      <p>
+        <strong>
+          Experience:
+        </strong>
+
+        {{ doctor.experienceYears }}
+        years
+      </p>
+
+      <p>
+        <strong>
+          Consultation Fee:
+        </strong>
+
+        {{ doctor.consultationFee | currency:'INR' }}
+      </p>
+
+      <p>
+        <strong>
+          License:
+        </strong>
+
+        {{ doctor.licenseNumber }}
+      </p>
+
+      <p>
+        <strong>
+          Email:
+        </strong>
+
+        {{ doctor.email }}
+      </p>
+
+      <p>
+        <strong>
+          Phone:
+        </strong>
+
+        {{ doctor.phone }}
+      </p>
+
+      <p>
+        {{ doctor.bio }}
+      </p>
+
+      <p
+        [ngClass]="
+          doctor.active
+            ? 'active'
+            : 'inactive'
+        ">
+
+        {{
+          doctor.active
+            ? 'Active'
+            : 'Inactive'
+        }}
+
+      </p>
+
+
+      <button
+  [routerLink]="doctorsRoute">
+
+  Back to Doctors
+
+</button>
+
+    </div>
+
+  </div>
+
+</div>

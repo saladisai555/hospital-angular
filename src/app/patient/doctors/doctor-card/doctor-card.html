@@ -1,0 +1,77 @@
+<div class="doctor-card">
+
+  <div class="doctor-header">
+
+    <div class="doctor-avatar">
+      {{ doctor.name.charAt(0) }}
+    </div>
+
+    <div>
+
+      <h2>
+        {{ doctor.name }}
+      </h2>
+
+      <p>
+        {{ doctor.specialization }}
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="doctor-info">
+
+    <p>
+      <strong>
+        Department:
+      </strong>
+
+      {{ doctor.department.name }}
+    </p>
+
+    <p>
+      <strong>
+        Experience:
+      </strong>
+
+      {{ doctor.experienceYears }}
+      years
+    </p>
+
+    <p>
+      <strong>
+        Consultation:
+      </strong>
+
+      {{ doctor.consultationFee | currency:'INR' }}
+
+    </p>
+
+    <p
+      [ngClass]="
+        doctor.active
+          ? 'active'
+          : 'inactive'
+      ">
+
+      {{
+        doctor.active
+          ? 'Available'
+          : 'Inactive'
+      }}
+
+    </p>
+
+  </div>
+
+
+  <button
+    (click)="viewDoctor()">
+
+    View Details
+
+  </button>
+
+</div>

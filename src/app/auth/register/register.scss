@@ -1,0 +1,197 @@
+.auth-page {
+  min-height: 80vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 40px 24px 60px;
+
+  background: #f5f7fb;
+}
+
+
+.auth-card {
+  width: 100%;
+}
+
+
+/* Header */
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h1 {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #243b5a;
+}
+
+.subtitle {
+  margin: 0;
+
+  color: #718096;
+
+  font-size: 15px;
+}
+
+
+/* Form */
+
+.register-form {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 24px;
+  row-gap: 20px;
+}
+
+
+/* Individual field */
+
+.form-group {
+  width: 100%;
+}
+
+
+/* Labels */
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #334155;
+}
+
+
+/* Native PrimeNG inputs */
+
+.native-control {
+  width: 100%;
+}
+
+
+/* PrimeNG component controls */
+
+.full-control {
+  width: 100%;
+}
+
+
+/* Address should occupy both columns */
+
+.address-group {
+  grid-column: 1 / -1;
+}
+
+.address-control {
+  width: 100%;
+
+  min-height: 100px;
+
+  resize: vertical;
+}
+
+
+/* Validation */
+
+.field-error {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #dc2626;
+
+  font-size: 13px;
+}
+
+
+/* Messages */
+
+.messages {
+  grid-column: 1 / -1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 2px;
+}
+
+
+/* Register button */
+
+.register-button {
+  grid-column: 1 / -1;
+
+  margin-top: 4px;
+}
+
+
+/* Login link */
+
+.login-link {
+  text-align: center;
+
+  margin-top: 24px;
+  padding-top: 20px;
+
+  border-top: 1px solid #e5e7eb;
+
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+.login-link a {
+  margin-left: 5px;
+
+  color: #2563eb;
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+  .auth-page {
+    padding: 25px 15px 40px;
+  }
+
+  .register-form {
+    grid-template-columns: 1fr;
+
+    column-gap: 0;
+  }
+
+  .address-group {
+    grid-column: auto;
+  }
+
+  .messages {
+    grid-column: auto;
+  }
+
+  .register-button {
+    grid-column: auto;
+  }
+}
