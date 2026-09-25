@@ -12,6 +12,8 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import {  RouterModule } from '@angular/router';
+import { AvatarModule } from 'primeng/avatar';
+import { SelectButtonModule } from 'primeng/selectbutton';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +29,9 @@ import {  RouterModule } from '@angular/router';
     SelectModule,
     TagModule,
     TextareaModule,
-    RouterModule
+    RouterModule,
+    AvatarModule,
+    SelectButtonModule
   ],
 
   exports: [
@@ -44,7 +48,9 @@ import {  RouterModule } from '@angular/router';
     SelectModule,
     TagModule,
     TextareaModule,
-    RouterModule
+    RouterModule,
+    AvatarModule,
+    SelectButtonModule
   ]
 })
 export class SharedModule {}

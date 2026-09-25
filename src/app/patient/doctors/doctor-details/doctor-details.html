@@ -1,138 +1,437 @@
 <div class="details-page">
 
+  <!-- Loading Doctor -->
+
   <div
     *ngIf="loading"
-    class="loading-message">
+    class="loading-container">
 
-    Loading doctor details...
+    <i class="pi pi-spin pi-spinner loading-icon"></i>
 
-  </div>
-
-
-  <div
-    *ngIf="
-      !loading &&
-      errorMessage
-    "
-    class="error-message">
-
-    <p>
-      {{ errorMessage }}
-    </p>
-
-    <button
-      (click)="retryLoading()">
-
-      Try Again
-
-    </button>
+    <span>
+      Loading doctor details...
+    </span>
 
   </div>
 
 
+  <!-- Doctor Loading Error -->
+
   <div
+    *ngIf="!loading && errorMessage"
+    class="message-container">
+
+    <p-message
+      severity="error">
+      {{errorMessage}}
+    </p-message>
+
+    <p-button
+      label="Try Again"
+      icon="pi pi-refresh"
+      severity="secondary"
+      (onClick)="retryLoading()">
+    </p-button>
+
+  </div>
+
+
+  <!-- Doctor Details -->
+
+  <p-card
     *ngIf="
       !loading &&
       !errorMessage &&
       doctor
     "
-    class="details-card">
+    styleClass="details-card">
 
-    <div class="doctor-avatar">
+    <div class="doctor-header">
 
-      {{ doctor.name.charAt(0) }}
+      <!-- Avatar -->
+
+      <p-avatar
+        [label]="doctor.name.charAt(0)"
+        shape="circle"
+        size="xlarge">
+      </p-avatar>
+
+
+      <!-- Doctor Basic Information -->
+
+      <div class="doctor-basic-info">
+
+        <div class="doctor-name-row">
+
+          <h1>
+            {{ doctor.name }}
+          </h1>
+
+          <p-tag
+            [value]="
+              doctor.active
+                ? 'Active'
+                : 'Inactive'
+            "
+            [severity]="
+              doctor.active
+                ? 'success'
+                : 'danger'
+            ">
+          </p-tag>
+
+        </div>
+
+        <h3>
+          {{ doctor.specialization }}
+        </h3>
+
+      </div>
 
     </div>
 
 
-    <div class="details-content">
+    <!-- Doctor Information -->
 
-      <h1>
-        {{ doctor.name }}
-      </h1>
+    <div class="doctor-information">
 
-      <h3>
-        {{ doctor.specialization }}
-      </h3>
+      <div class="info-item">
 
-      <p>
-        <strong>
-          Department:
-        </strong>
+        <i class="pi pi-building"></i>
 
-        {{ doctor.department.name }}
-      </p>
+        <div>
+          <span class="info-label">
+            Department
+          </span>
 
-      <p>
-        <strong>
-          Experience:
-        </strong>
+          <span>
+            {{ doctor.department.name }}
+          </span>
+        </div>
 
-        {{ doctor.experienceYears }}
-        years
-      </p>
+      </div>
 
-      <p>
-        <strong>
-          Consultation Fee:
-        </strong>
 
-        {{ doctor.consultationFee | currency:'INR' }}
-      </p>
+      <div class="info-item">
 
-      <p>
-        <strong>
-          License:
-        </strong>
+        <i class="pi pi-briefcase"></i>
 
-        {{ doctor.licenseNumber }}
-      </p>
+        <div>
+          <span class="info-label">
+            Experience
+          </span>
 
-      <p>
-        <strong>
-          Email:
-        </strong>
+          <span>
+            {{ doctor.experienceYears }} years
+          </span>
+        </div>
 
-        {{ doctor.email }}
-      </p>
+      </div>
 
-      <p>
-        <strong>
-          Phone:
-        </strong>
 
-        {{ doctor.phone }}
-      </p>
+      <div class="info-item">
+
+        <i class="pi pi-indian-rupee"></i>
+
+        <div>
+          <span class="info-label">
+            Consultation Fee
+          </span>
+
+          <span>
+            {{ doctor.consultationFee | currency:'INR' }}
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="info-item">
+
+        <i class="pi pi-id-card"></i>
+
+        <div>
+          <span class="info-label">
+            License
+          </span>
+
+          <span>
+            {{ doctor.licenseNumber }}
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="info-item">
+
+        <i class="pi pi-envelope"></i>
+
+        <div>
+          <span class="info-label">
+            Email
+          </span>
+
+          <span>
+            {{ doctor.email }}
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="info-item">
+
+        <i class="pi pi-phone"></i>
+
+        <div>
+          <span class="info-label">
+            Phone
+          </span>
+
+          <span>
+            {{ doctor.phone }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Doctor Bio -->
+
+    <div
+      *ngIf="doctor.bio"
+      class="doctor-bio">
+
+      <span class="info-label">
+        About the Doctor
+      </span>
 
       <p>
         {{ doctor.bio }}
       </p>
 
-      <p
-        [ngClass]="
-          doctor.active
-            ? 'active'
-            : 'inactive'
-        ">
-
-        {{
-          doctor.active
-            ? 'Active'
-            : 'Inactive'
-        }}
-
-      </p>
+    </div>
 
 
-      <button
-  [routerLink]="doctorsRoute">
+    <!-- Booking -->
 
-  Back to Doctors
+    <div class="booking-section">
 
-</button>
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Book an Appointment
+          </h2>
+
+          <p>
+            Select a date and available time slot.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Date -->
+
+      <div class="form-field">
+
+        <label for="appointmentDate">
+
+          Select Date
+
+        </label>
+
+        <p-datepicker
+          inputId="appointmentDate"
+          [(ngModel)]="selectedDate"
+          [minDate]="todayDate"
+          dateFormat="dd/mm/yy"
+          placeholder="Select appointment date"
+          [showIcon]="true"
+          [readonlyInput]="true"
+          (onSelect)="onDateChange()">
+        </p-datepicker>
+
+      </div>
+
+
+      <!-- Availability Loading -->
+
+      <div
+        *ngIf="availabilityLoading"
+        class="loading-container">
+
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <span>
+          Loading available slots...
+        </span>
+
+      </div>
+
+
+      <!-- Availability Error -->
+
+      <div
+        *ngIf="
+          !availabilityLoading &&
+          availabilityError
+        "
+        class="message-container">
+
+        <p-message
+          severity="error">
+          {{availabilityError}}
+        </p-message>
+
+        <p-button
+          label="Try Again"
+          icon="pi pi-refresh"
+          severity="secondary"
+          (onClick)="loadAvailability()">
+        </p-button>
+
+      </div>
+
+
+      <!-- Available Slots -->
+
+      <div
+        *ngIf="
+          !availabilityLoading &&
+          !availabilityError &&
+          timeSlots.length > 0
+        "
+        class="slots-section">
+
+        <label>
+          Available Times
+        </label>
+
+       <p-selectbutton
+  [options]="timeSlots"
+  [(ngModel)]="selectedTime"
+  optionLabel="label"
+  optionValue="value"
+  (onChange)="onTimeChange()">
+</p-selectbutton>
+
+      </div>
+
+
+      <!-- No Slots -->
+
+      <div
+        *ngIf="
+          !availabilityLoading &&
+          !availabilityError &&
+          timeSlots.length === 0
+        "
+        class="empty-message">
+
+        <i class="pi pi-calendar-times"></i>
+
+        <span>
+          No availability for this date.
+        </span>
+
+      </div>
+
+
+      <!-- Reason -->
+
+      <div
+        *ngIf="selectedTime"
+        class="form-field">
+
+        <label for="appointmentReason">
+
+          Reason for appointment
+
+        </label>
+
+        <textarea
+          pTextarea
+          id="appointmentReason"
+          [(ngModel)]="reason"
+          maxlength="500"
+          rows="4"
+          placeholder="Optional">
+        </textarea>
+
+        <small>
+          Maximum 500 characters.
+        </small>
+
+      </div>
+
+
+      <!-- Booking Error -->
+
+      <div
+        *ngIf="bookingError"
+        class="message-container">
+
+        <p-message
+          severity="error">
+          {{bookingError}}
+        </p-message>
+
+      </div>
+
+
+      <!-- Booking Success -->
+
+      <div
+        *ngIf="bookingSuccess"
+        class="message-container">
+
+        <p-message
+          severity="success">
+          {{bookingSuccess}}
+        </p-message>
+
+      </div>
+
+
+      <!-- Book Button -->
+
+      <div
+        *ngIf="selectedTime"
+        class="booking-action">
+
+        <p-button
+          label="Book Appointment"
+          icon="pi pi-calendar-plus"
+          [loading]="booking"
+          [disabled]="booking"
+          (onClick)="bookAppointment()">
+        </p-button>
+
+      </div>
 
     </div>
 
-  </div>
+
+    <!-- Back -->
+
+    <div class="back-action">
+
+      <p-button
+        label="Back to Doctors"
+        icon="pi pi-arrow-left"
+        severity="secondary"
+        [routerLink]="doctorsRoute">
+      </p-button>
+
+    </div>
+
+  </p-card>
 
 </div>
