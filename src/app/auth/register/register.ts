@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
-
+import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
 import { APP_ROUTES } from '../../core/constants/app-routes';
 import { AuthService } from '../../services/auth.service';
@@ -66,7 +70,8 @@ readonly loginRoute =
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly fb:FormBuilder
+    private readonly fb:FormBuilder,
+  private readonly cdr: ChangeDetectorRef
   ) {}ngOnInit(): void {
   this.initializeRegisterForm();
 }
@@ -83,6 +88,28 @@ private initializeRegisterForm(): void {
 
     })
   }
+  private formatDate(date: Date | string | null): string {
+
+  if (!date) {
+    return '';
+  }
+
+  if (typeof date === 'string') {
+    return date;
+  }
+
+  const year = date.getFullYear();
+
+  const month = String(
+    date.getMonth() + 1
+  ).padStart(2, '0');
+
+  const day = String(
+    date.getDate()
+  ).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
   onSubmit(): void {
 
     if (this.registerForm.invalid) {
@@ -99,53 +126,71 @@ private initializeRegisterForm(): void {
       email: this.registerForm.value.email!,
       password: this.registerForm.value.password!,
       phone: this.registerForm.value.phone || '',
-      dateOfBirth: this.registerForm.value.dateOfBirth || '',
+      dateOfBirth:
+    this.formatDate(
+      this.registerForm.value.dateOfBirth
+    ),
       gender: this.registerForm.value.gender || '',
       address: this.registerForm.value.address || ''
     };
-
-    this.authService.register(request)
+this.authService
+  .register(request)
+  .pipe(
+    finalize(() => {
+      this.loading = false;
+    })
+  )
       .subscribe({
 
-        next: () => {
+       next: () => {
 
-          this.loading = false;
+  this.loading = false;
 
-          this.successMessage =
-            'Registration successful. Redirecting to login...';
+  this.successMessage =
+    'Registration successful. Redirecting to login...';
 
-          setTimeout(() => {
+  this.cdr.markForCheck();
 
-  this.router.navigate([
-    APP_ROUTES.AUTH.LOGIN
-  ]);
+  setTimeout(() => {
 
-}, 1000);
-        },
+    this.router.navigate([
+      APP_ROUTES.AUTH.LOGIN
+    ]);
 
+  }, 1000);
+
+},
         error: (error) => {
 
-          console.error(
-            'Registration failed:',
-            error
-          );
+  console.error(
+    'Registration failed:',
+    error
+  );
 
-          this.loading = false;
+  this.loading = false;
 
-          if (error.status === 409) {
-            this.errorMessage =
-              'An account with this email already exists.';
-          }
-          else if (error.status === 400) {
-            this.errorMessage =
-              error.error?.message ||
-              'Please check the entered information.';
-          }
-          else {
-            this.errorMessage =
-              'Unable to register. Please try again.';
-          }
-        }
+  if (error.status === 409) {
+
+    this.errorMessage =
+      'An account with this email already exists.';
+
+  }
+  else if (error.status === 400) {
+
+    this.errorMessage =
+      error.error?.message ||
+      'Please check the entered information.';
+
+  }
+  else {
+
+    this.errorMessage =
+      'Unable to register. Please try again.';
+
+  }
+
+  this.cdr.markForCheck();
+}
       });
   }
 }

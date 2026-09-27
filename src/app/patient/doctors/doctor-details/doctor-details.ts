@@ -9,7 +9,11 @@ import { Doctor } from '../../../models/doctor';
 import {
   DoctorService
 } from '../../../services/doctor.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 import {
   AvailabilityService
 } from '../../../services/availability.service';
@@ -72,7 +76,8 @@ bookingSuccess = '';
     private route: ActivatedRoute,
     private doctorService: DoctorService,
   private availabilityService: AvailabilityService,
-  private appointmentService: AppointmentService
+  private appointmentService: AppointmentService,
+  private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -130,8 +135,9 @@ bookingSuccess = '';
           this.generateTimeSlots(
             availability
           );
-
+        
         this.availabilityLoading = false;
+           this.cdr.markForCheck();
 
       },
 
@@ -146,6 +152,7 @@ bookingSuccess = '';
           'Unable to load doctor availability.';
 
         this.availabilityLoading = false;
+           this.cdr.markForCheck();
 
       }
 
@@ -168,6 +175,8 @@ bookingSuccess = '';
           this.doctor = doctor;
 
           this.loading = false;
+           this.cdr.markForCheck();
+
 
         },
 
@@ -182,6 +191,8 @@ bookingSuccess = '';
             'Unable to load doctor details.';
 
           this.loading = false;
+
+  this.cdr.markForCheck();
 
         }
 
@@ -317,20 +328,22 @@ onTimeChange(): void {
 
 }
 
-
-
 bookAppointment(): void {
 
-  if (
-    !this.selectedDate ||
-    !this.selectedTime
-  ) {
+  if (!this.selectedDate) {
 
     this.bookingError =
-      'Please select a date and time.';
+      'Please select a date.';
 
     return;
+  }
 
+  if (!this.selectedTime) {
+
+    this.bookingError =
+      'Please select a time slot.';
+
+    return;
   }
 
   if (this.booking) {
@@ -338,26 +351,22 @@ bookAppointment(): void {
   }
 
   this.booking = true;
-
   this.bookingError = '';
-
   this.bookingSuccess = '';
 
-  const request:
-    AppointmentBookingRequest = {
+  const request: AppointmentBookingRequest = {
 
-      doctorId:
-        this.doctorId,
+    doctorId: this.doctorId,
 
-     appointmentDate:
-  this.getSelectedDateString(),
-      startTime:
-        this.selectedTime,
+    appointmentDate:
+      this.getSelectedDateString(),
 
-      reason:
-        this.reason.trim()
+    startTime:
+      this.selectedTime,
 
-    };
+    reason:
+      this.reason.trim()
+  };
 
   this.appointmentService
     .bookAppointment(request)
@@ -376,7 +385,6 @@ bookAppointment(): void {
           'Appointment booked successfully.';
 
         this.reason = '';
-
         this.selectedTime = '';
 
         this.loadAvailability();
@@ -395,7 +403,8 @@ bookAppointment(): void {
         if (error.status === 409) {
 
           this.bookingError =
-            'This time slot is no longer available. Please select another slot.';
+            error.error?.message ||
+            'This time slot is already booked. Please choose another slot.';
 
           this.loadAvailability();
 
@@ -407,16 +416,31 @@ bookAppointment(): void {
             'Please check the appointment details.';
 
         }
+        else if (error.status === 401) {
+
+          this.bookingError =
+            'Your session has expired. Please login again.';
+
+        }
+        else if (error.status === 403) {
+
+          this.bookingError =
+            'You are not allowed to book this appointment.';
+
+        }
         else {
 
           this.bookingError =
+            error.error?.message ||
             'Unable to book the appointment. Please try again.';
 
         }
-
+           this.cdr.markForCheck();
       }
 
     });
 
 }
-}
+
+
+  }

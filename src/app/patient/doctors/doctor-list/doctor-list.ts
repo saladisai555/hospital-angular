@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   OnInit
 } from '@angular/core';
@@ -40,7 +41,8 @@ export class DoctorListComponent
 
   constructor(
     private doctorService: DoctorService,
-    private router: Router
+    private router: Router,
+  private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -64,34 +66,38 @@ export class DoctorListComponent
       )
       .subscribe({
 
-        next: (response) => {
+       next: (response) => {
 
-          this.doctors =
-            response.content;
+  this.doctors =
+    response.content;
 
-          this.totalPages =
-            response.totalPages;
+  this.totalPages =
+    response.totalPages;
 
-          this.totalElements =
-            response.totalElements;
+  this.totalElements =
+    response.totalElements;
 
-          this.loading = false;
+  this.loading = false;
 
-        },
+  this.cdr.markForCheck();
+
+},
 
         error: (error) => {
 
-          console.error(
-            'Failed to load doctors:',
-            error
-          );
+  console.error(
+    'Failed to load doctors:',
+    error
+  );
 
-          this.errorMessage =
-            'Unable to load doctors.';
+  this.errorMessage =
+    'Unable to load doctors.';
 
-          this.loading = false;
+  this.loading = false;
 
-        }
+  this.cdr.markForCheck();
+
+}
 
       });
 

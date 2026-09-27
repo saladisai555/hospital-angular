@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -45,6 +49,7 @@ export class Login implements OnInit{
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly fb : FormBuilder,
+  private readonly cdr: ChangeDetectorRef
   ) {}
  ngOnInit(): void {
   this.initializeLoginForm();
@@ -91,55 +96,66 @@ private initializeLoginForm(): void {
 
     this.authService.login(request)
       .subscribe({
-        next: (response) => {
+       next: (response) => {
 
-          this.loading = false;
+  this.loading = false;
 
-        if (response.role === ROLES.PATIENT) {
+  this.cdr.markForCheck();
 
-  this.router.navigate([
-    APP_ROUTES.PATIENT.DOCTORS
-  ]);
+  if (response.role === ROLES.PATIENT) {
 
+    this.router.navigate([
+      APP_ROUTES.PATIENT.DOCTORS
+    ]);
+
+  }
+  else if (response.role === ROLES.DOCTOR) {
+
+    this.router.navigate([
+      APP_ROUTES.DOCTOR.DASHBOARD
+    ]);
+
+  }
+  else if (response.role === ROLES.ADMIN) {
+
+    this.router.navigate([
+      APP_ROUTES.ADMIN.DASHBOARD
+    ]);
+
+  }
+  else {
+
+    this.router.navigate([
+      APP_ROUTES.PATIENT.DOCTORS
+    ]);
+
+  }
+
+},
+       error: (error) => {
+
+  console.error(
+    'Login failed:',
+    error
+  );
+
+  this.loading = false;
+
+  if (error.status === 401) {
+
+    this.errorMessage =
+      'Invalid email or password.';
+
+  }
+  else {
+
+    this.errorMessage =
+      'Unable to login. Please try again.';
+
+  }
+
+  this.cdr.markForCheck();
 }
-else if (response.role === ROLES.DOCTOR) {
-
-  this.router.navigate([
-    APP_ROUTES.DOCTOR.DASHBOARD
-  ]);
-
-}
-else if (response.role === ROLES.ADMIN) {
-
-  this.router.navigate([
-    APP_ROUTES.ADMIN.DASHBOARD
-  ]);
-
-}
-else {
-
-  this.router.navigate([
-    APP_ROUTES.PATIENT.DOCTORS
-  ]);
-
-}
-        },
-
-        error: (error) => {
-
-          console.error('Login failed:', error);
-
-          this.loading = false;
-
-          if (error.status === 401) {
-            this.errorMessage =
-              'Invalid email or password.';
-          }
-          else {
-            this.errorMessage =
-              'Unable to login. Please try again.';
-          }
-        }
       });
   }
 }

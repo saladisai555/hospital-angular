@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   OnInit
 } from '@angular/core';
@@ -13,6 +14,10 @@ import {
 import {
   AppointmentService
 } from '../../services/appointment.service';
+
+import {
+  ConfirmationService
+} from 'primeng/api';
 
 import {
   APP_ROUTES
@@ -38,7 +43,9 @@ export class Appointments implements OnInit {
 
   constructor(
     private readonly appointmentService: AppointmentService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +70,8 @@ export class Appointments implements OnInit {
 
           this.loading = false;
 
+          this.cdr.markForCheck();
+
         },
 
         error: (error) => {
@@ -76,6 +85,8 @@ export class Appointments implements OnInit {
             'Unable to load your appointments.';
 
           this.loading = false;
+
+          this.cdr.markForCheck();
 
         }
 
@@ -96,7 +107,56 @@ export class Appointments implements OnInit {
 
   }
 
+  /*
+   * Opens confirmation dialog.
+   *
+   * The appointment is NOT cancelled here.
+   * Cancellation happens only after
+   * the user clicks "Yes, Cancel".
+   */
   cancelAppointment(
+    appointmentId: number
+  ): void {
+
+    if (this.cancellingId !== null) {
+      return;
+    }
+
+    this.confirmationService.confirm({
+
+      header: 'Cancel Appointment',
+
+      message:
+        'Are you sure you want to cancel this appointment?',
+
+      icon: 'pi pi-exclamation-triangle',
+
+      acceptLabel: 'Yes, Cancel',
+
+      rejectLabel: 'No',
+
+      acceptButtonStyleClass:
+        'p-button-danger',
+
+      rejectButtonStyleClass:
+        'p-button-secondary',
+
+      accept: () => {
+
+        this.performCancellation(
+          appointmentId
+        );
+
+      }
+
+    });
+
+  }
+
+  /*
+   * Actually calls the backend cancellation API.
+   */
+  private performCancellation(
     appointmentId: number
   ): void {
 
@@ -110,6 +170,8 @@ export class Appointments implements OnInit {
 
     this.successMessage = '';
 
+    this.cdr.markForCheck();
+
     this.appointmentService
       .cancelAppointment(appointmentId)
       .subscribe({
@@ -121,6 +183,13 @@ export class Appointments implements OnInit {
           this.successMessage =
             'Appointment cancelled successfully.';
 
+          this.cdr.markForCheck();
+
+          /*
+           * Reload appointments so the
+           * status changes to CANCELLED
+           * immediately in the UI.
+           */
           this.loadAppointments();
 
         },
@@ -137,6 +206,7 @@ export class Appointments implements OnInit {
           if (error.status === 409) {
 
             this.errorMessage =
+              error.error?.message ||
               'This appointment cannot be cancelled.';
 
           }
@@ -149,9 +219,12 @@ export class Appointments implements OnInit {
           else {
 
             this.errorMessage =
+              error.error?.message ||
               'Unable to cancel appointment.';
 
           }
+
+          this.cdr.markForCheck();
 
         }
 

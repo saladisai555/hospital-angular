@@ -23,7 +23,7 @@ export class DoctorService {
     page: number = 0,
     size: number = 10,
     departmentId?: number,
-    specialization?: string
+    search?: string
   ): Observable<PageResponse<Doctor>> {
 
     let params = new HttpParams()
@@ -38,11 +38,11 @@ export class DoctorService {
     }
 
     if (
-      specialization
+      search?.trim()
     ) {
       params = params.set(
-        'specialization',
-        specialization.trim()
+        'search',
+        search.trim()
       );
     }
 

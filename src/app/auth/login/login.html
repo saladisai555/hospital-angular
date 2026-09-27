@@ -28,13 +28,14 @@
           Email
         </label>
 
-        <input
-          pInputText
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="Enter your email"
-        />
+        <<input
+  pInputText
+  id="email"
+  type="email"
+  formControlName="email"
+  placeholder="Enter your email"
+  [disabled]="loading"
+/>
 
         <small
           class="field-error"
@@ -66,13 +67,14 @@
         </label>
 
         <p-password
-          inputId="password"
-          formControlName="password"
-          placeholder="Enter your password"
-          [feedback]="false"
-          [toggleMask]="true"
-          styleClass="password-field">
-        </p-password>
+  inputId="password"
+  formControlName="password"
+  placeholder="Enter your password"
+  [feedback]="false"
+  [toggleMask]="true"
+  [disabled]="loading"
+  styleClass="password-field">
+</p-password>
 
       <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
     
@@ -89,10 +91,6 @@
       </div>
 
 
-      <!-- Backend error -->
-      <p-message *ngIf="errorMessage" severity="error">
-  {{ errorMessage }}
-</p-message>
 
 
 

@@ -7,6 +7,7 @@ import {  DoctorCardComponent } from './doctor-card/doctor-card';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
+
 @NgModule({
   declarations: [
     DoctorListComponent,
@@ -18,7 +19,7 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     FormsModule,
     RouterModule,
-    SharedModule
+    SharedModule,
   ],
 
   exports: [

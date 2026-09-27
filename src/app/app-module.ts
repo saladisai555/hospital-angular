@@ -10,10 +10,14 @@ import { NavbarComponent } from './shared/navbar/navbar';
 
 import { DoctorsModule } from './patient/doctors/doctors-module';
 import { AuthModule } from './auth/auth.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Appointments } from './patient/appointments/appointments';
 import { AuthInterceptor } from './auth-interceptors';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,HTTP_INTERCEPTORS
+} from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,10 @@ import { SharedModule } from './shared/shared.module';
   ],
 
   providers: [
+    ConfirmationService,
+     provideHttpClient(
+    withInterceptorsFromDi()
+  ),
     providePrimeNG({
       theme: {
         preset: Aura,
