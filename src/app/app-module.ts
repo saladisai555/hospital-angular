@@ -9,6 +9,7 @@ import Aura from '@primeuix/themes/aura';
 import { NavbarComponent } from './shared/navbar/navbar';
 
 import { DoctorsModule } from './patient/doctors/doctors-module';
+import { DoctorModule } from './doctor/doctor.module';
 import { AuthModule } from './auth/auth.module';
 import { Appointments } from './patient/appointments/appointments';
 import { AuthInterceptor } from './auth-interceptors';
@@ -32,7 +33,8 @@ import { ConfirmationService } from 'primeng/api';
     FormsModule,
     DoctorsModule,
     AuthModule,
-    SharedModule
+    SharedModule,
+  DoctorModule
   ],
 
   providers: [

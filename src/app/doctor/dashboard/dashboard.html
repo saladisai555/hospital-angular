@@ -1,0 +1,67 @@
+<div class="dashboard-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Doctor Dashboard</h1>
+
+      <p>
+        Manage your availability and appointments.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="dashboard-grid">
+
+    <p-card>
+
+      <div class="dashboard-card">
+
+        <i class="pi pi-calendar"></i>
+
+        <h2>My Availability</h2>
+
+        <p>
+          Manage your working days and available
+          appointment time slots.
+        </p>
+
+        <p-button
+          label="Manage Availability"
+          icon="pi pi-calendar"
+          (onClick)="goToAvailability()">
+        </p-button>
+
+      </div>
+
+    </p-card>
+
+
+    <p-card>
+
+      <div class="dashboard-card">
+
+        <i class="pi pi-file-edit"></i>
+
+        <h2>My Appointments</h2>
+
+        <p>
+          View patient appointments and update
+          their status.
+        </p>
+
+        <p-button
+          label="View Appointments"
+          icon="pi pi-list"
+          (onClick)="goToAppointments()">
+        </p-button>
+
+      </div>
+
+    </p-card>
+
+  </div>
+
+</div>

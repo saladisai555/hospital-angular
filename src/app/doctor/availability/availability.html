@@ -1,0 +1,274 @@
+<div class="availability-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>My Availability</h1>
+
+      <p>
+        Manage the days and times when patients
+        can book appointments with you.
+      </p>
+    </div>
+
+    <p-button
+      label="Add Availability"
+      icon="pi pi-plus"
+      (onClick)="openCreateDialog()">
+    </p-button>
+
+  </div>
+
+
+  <!-- Error -->
+
+  <p-message
+    *ngIf="errorMessage"
+    severity="error">
+
+    {{ errorMessage }}
+
+  </p-message>
+
+
+  <!-- Success -->
+
+  <p-message
+    *ngIf="successMessage"
+    severity="success">
+
+    {{ successMessage }}
+
+  </p-message>
+
+
+  <!-- Loading -->
+
+  <div
+    *ngIf="loading"
+    class="loading-state">
+
+    <i class="pi pi-spin pi-spinner"></i>
+
+    <span>
+      Loading availability...
+    </span>
+
+  </div>
+
+
+  <!-- Empty -->
+
+  <div
+    *ngIf="
+      !loading &&
+      availabilities.length === 0
+    "
+    class="empty-state">
+
+    <i class="pi pi-calendar"></i>
+
+    <h2>No availability configured</h2>
+
+    <p>
+      Add your working days and appointment
+      time slots to allow patients to book.
+    </p>
+
+    <p-button
+      label="Add Availability"
+      icon="pi pi-plus"
+      (onClick)="openCreateDialog()">
+    </p-button>
+
+  </div>
+
+
+  <!-- Availability cards -->
+
+  <div
+    *ngIf="
+      !loading &&
+      availabilities.length > 0
+    "
+    class="availability-grid">
+
+    <p-card
+      *ngFor="
+        let availability of availabilities
+      ">
+
+      <div class="availability-card">
+
+        <div class="availability-info">
+
+          <h2>
+            {{ availability.dayOfWeek }}
+          </h2>
+
+          <p>
+            {{ availability.startTime }}
+            -
+            {{ availability.endTime }}
+          </p>
+
+          <p-tag
+            [value]="
+              availability.active
+                ? 'Active'
+                : 'Inactive'
+            "
+            [severity]="
+              availability.active
+                ? 'success'
+                : 'secondary'
+            ">
+          </p-tag>
+
+          <small>
+            Slot duration:
+            {{ availability.slotDurationMinutes }}
+            minutes
+          </small>
+
+        </div>
+
+
+        <div class="availability-actions">
+
+          <p-button
+            label="Edit"
+            icon="pi pi-pencil"
+            severity="secondary"
+            (onClick)="
+              openEditDialog(availability)
+            ">
+          </p-button>
+
+          <p-button
+            label="Delete"
+            icon="pi pi-trash"
+            severity="danger"
+            [outlined]="true"
+            (onClick)="
+              deleteAvailability(availability)
+            ">
+          </p-button>
+
+        </div>
+
+      </div>
+
+    </p-card>
+
+  </div>
+
+
+  <!-- Create / Edit Dialog -->
+
+  <p-dialog
+    [header]="
+      editing
+        ? 'Edit Availability'
+        : 'Add Availability'
+    "
+    [(visible)]="dialogVisible"
+    [modal]="true"
+    [closable]="!saving"
+    [style]="{ width: '450px' }">
+
+    <div class="availability-form">
+
+      <label>
+        Day
+      </label>
+
+      <p-select
+        [options]="daysOfWeek"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="form.dayOfWeek"
+        placeholder="Select day"
+        [disabled]="saving">
+      </p-select>
+
+
+      <label>
+        Start Time
+      </label>
+
+      <input
+        pInputText
+        type="time"
+        [(ngModel)]="form.startTime"
+        [disabled]="saving">
+
+
+      <label>
+        End Time
+      </label>
+
+      <input
+        pInputText
+        type="time"
+        [(ngModel)]="form.endTime"
+        [disabled]="saving">
+
+
+      <label>
+        Slot Duration
+      </label>
+
+      <p-select
+        [options]="slotDurations"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="
+          form.slotDurationMinutes
+        "
+        [disabled]="saving">
+      </p-select>
+
+
+      <p-message
+        *ngIf="
+          form.startTime &&
+          form.endTime &&
+          form.startTime >= form.endTime
+        "
+        severity="warn">
+
+        End time must be later than start time.
+
+      </p-message>
+
+
+      <div class="dialog-actions">
+
+        <p-button
+          label="Cancel"
+          severity="secondary"
+          [outlined]="true"
+          [disabled]="saving"
+          (onClick)="closeDialog()">
+        </p-button>
+
+        <p-button
+          [label]="
+            editing
+              ? 'Update'
+              : 'Save'
+          "
+          icon="pi pi-check"
+          [loading]="saving"
+          [disabled]="!isFormValid()"
+          (onClick)="saveAvailability()">
+        </p-button>
+
+      </div>
+
+    </div>
+
+  </p-dialog>
+
+</div>

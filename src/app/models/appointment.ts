@@ -31,6 +31,11 @@ export interface AppointmentBookingRequest {
   reason?: string;
 }
 
+export interface AppointmentStatusUpdateRequest {
+  status: AppointmentStatus;
+  notes?: string;
+}
+
 
 
 

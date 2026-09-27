@@ -11,8 +11,10 @@ export const APP_ROUTES = {
   },
 
   DOCTOR: {
-    DASHBOARD: '/doctor'
-  },
+  DASHBOARD: '/doctor',
+  AVAILABILITY: '/doctor/availability',
+  APPOINTMENTS: '/doctor/appointments'
+},
 
   ADMIN: {
     DASHBOARD: '/admin'

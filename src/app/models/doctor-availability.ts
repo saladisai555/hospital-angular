@@ -7,3 +7,10 @@ export interface DoctorAvailability {
   slotDurationMinutes: number;
   active: boolean;
 }
+
+export interface DoctorAvailabilityRequest {
+  dayOfWeek: string;
+  startTime: string;
+  endTime: string;
+  slotDurationMinutes: number;
+}

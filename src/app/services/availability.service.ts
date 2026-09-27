@@ -8,7 +8,8 @@ import {
 import { Observable } from 'rxjs';
 
 import {
-  DoctorAvailability
+  DoctorAvailability,
+  DoctorAvailabilityRequest
 } from '../models/doctor-availability';
 
 @Injectable({
@@ -26,6 +27,7 @@ export class AvailabilityService {
     private readonly http: HttpClient
   ) {}
 
+  // Patient/Doctor can view a doctor's availability
   getDoctorAvailability(
     doctorId: number,
     date?: string
@@ -42,24 +44,51 @@ export class AvailabilityService {
 
     }
 
-    return this.http.get<
-      DoctorAvailability[]
-    >(
+    return this.http.get<DoctorAvailability[]>(
       `${this.publicApiUrl}/${doctorId}/availability`,
       { params }
     );
-
   }
 
+  // Doctor: view own availability
   getMyAvailability():
     Observable<DoctorAvailability[]> {
 
-    return this.http.get<
-      DoctorAvailability[]
-    >(
+    return this.http.get<DoctorAvailability[]>(
       this.doctorApiUrl
     );
-
   }
 
+  // Doctor: create availability
+  createAvailability(
+    request: DoctorAvailabilityRequest
+  ): Observable<DoctorAvailability> {
+
+    return this.http.post<DoctorAvailability>(
+      this.doctorApiUrl,
+      request
+    );
+  }
+
+  // Doctor: update availability
+  updateAvailability(
+    id: number,
+    request: DoctorAvailabilityRequest
+  ): Observable<DoctorAvailability> {
+
+    return this.http.put<DoctorAvailability>(
+      `${this.doctorApiUrl}/${id}`,
+      request
+    );
+  }
+
+  // Doctor: delete/deactivate availability
+  deleteAvailability(
+    id: number
+  ): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.doctorApiUrl}/${id}`
+    );
+  }
 }

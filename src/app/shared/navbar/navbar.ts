@@ -11,30 +11,38 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./navbar.scss']
 })
 export class NavbarComponent {
-constructor(
 
-  public readonly authService: AuthService,
+  constructor(
+    public readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
-  private readonly router: Router
+  readonly patientAppointmentsRoute =
+    APP_ROUTES.PATIENT.APPOINTMENTS;
 
-) {}
-readonly patientAppointmentsRoute =
-  APP_ROUTES.PATIENT.APPOINTMENTS;
   readonly loginRoute =
-  APP_ROUTES.AUTH.LOGIN;
-
-logout(): void {
-
-  this.authService.logout();
-
-  this.router.navigate([
-    APP_ROUTES.AUTH.LOGIN
-  ]);
-
-}
-  appName: string = 'MediCare';
+    APP_ROUTES.AUTH.LOGIN;
 
   readonly doctorsRoute =
     APP_ROUTES.PATIENT.DOCTORS;
+
+  readonly doctorDashboardRoute =
+    APP_ROUTES.DOCTOR.DASHBOARD;
+
+  readonly doctorAvailabilityRoute =
+    APP_ROUTES.DOCTOR.AVAILABILITY;
+
+  readonly doctorAppointmentsRoute =
+    APP_ROUTES.DOCTOR.APPOINTMENTS;
+
+  logout(): void {
+
+    this.authService.logout();
+
+    this.router.navigate([
+      APP_ROUTES.AUTH.LOGIN
+    ]);
+
+  }
 
 }

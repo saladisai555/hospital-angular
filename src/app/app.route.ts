@@ -5,7 +5,11 @@ import { DoctorListComponent }
 
 import { DoctorDetailsComponent }
   from './patient/doctors/doctor-details/doctor-details';
+import { Dashboard }
+  from './doctor/dashboard/dashboard';
 
+import { Availability }
+  from './doctor/availability/availability';
 import { Login }
   from './auth/login/login';
 
@@ -14,7 +18,8 @@ import { Register }
 
 import { Appointments }
   from './patient/appointments/appointments';
-
+import { DoctorAppointments }
+  from './doctor/appointments/appointments';
 import { authGuard }
   from './core/guard/auth.guard';
 
@@ -80,8 +85,37 @@ export const APP_ROUTES: Routes = [
       roles: [ROLES.PATIENT]
     }
   },
+// Doctor - Dashboard
+
+{
+  path: 'doctor',
+  component: Dashboard,
+  canActivate: [authGuard],
+  data: {
+    roles: [ROLES.DOCTOR]
+  }
+},
 
 
+// Doctor - Availability
+
+{
+  path: 'doctor/availability',
+  component: Availability,
+  canActivate: [authGuard],
+  data: {
+    roles: [ROLES.DOCTOR]
+  }
+},
+
+{
+  path: 'doctor/appointments',
+  component: DoctorAppointments,
+  canActivate: [authGuard],
+  data: {
+    roles: [ROLES.DOCTOR]
+  }
+},
   // Unknown route
 
   {

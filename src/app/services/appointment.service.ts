@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 
 import {
   Appointment,
-  AppointmentBookingRequest
+  AppointmentBookingRequest,
+  AppointmentStatusUpdateRequest
 } from '../models/appointment';
 
 @Injectable({
@@ -17,9 +18,16 @@ export class AppointmentService {
   private readonly apiUrl =
     'http://localhost:8080/api/appointments';
 
+  private readonly doctorApiUrl =
+    'http://localhost:8080/api/doctor/appointments';
+
   constructor(
-    private http: HttpClient
+    private readonly http: HttpClient
   ) {}
+
+  // -------------------------
+  // PATIENT APIs
+  // -------------------------
 
   bookAppointment(
     request: AppointmentBookingRequest
@@ -29,15 +37,14 @@ export class AppointmentService {
       this.apiUrl,
       request
     );
-
   }
 
-  getMyAppointments(): Observable<Appointment[]> {
+  getMyAppointments():
+    Observable<Appointment[]> {
 
     return this.http.get<Appointment[]>(
       `${this.apiUrl}/my`
     );
-
   }
 
   cancelAppointment(
@@ -48,7 +55,28 @@ export class AppointmentService {
       `${this.apiUrl}/${appointmentId}/cancel`,
       {}
     );
-
   }
 
+  // -------------------------
+  // DOCTOR APIs
+  // -------------------------
+
+  getDoctorAppointments():
+    Observable<Appointment[]> {
+
+    return this.http.get<Appointment[]>(
+      this.doctorApiUrl
+    );
+  }
+
+  updateAppointmentStatus(
+    appointmentId: number,
+    request: AppointmentStatusUpdateRequest
+  ): Observable<Appointment> {
+
+    return this.http.patch<Appointment>(
+      `${this.doctorApiUrl}/${appointmentId}/status`,
+      request
+    );
+  }
 }

@@ -6,7 +6,6 @@ import {
 import { APP_ROUTES } from './app.route';
 
 
-
 @NgModule({
 
   imports: [

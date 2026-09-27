@@ -9,34 +9,185 @@
 
   background: #ffffff;
 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #e5e7eb;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
+
+/* Logo */
+
 .logo {
+  min-width: 120px;
+
   font-size: 22px;
-  font-weight: bold;
+  font-weight: 700;
+
   color: #2563eb;
 }
+
+
+/* Navigation */
 
 .nav-links {
   display: flex;
-  gap: 25px;
+  align-items: center;
+
+  gap: 8px;
 }
 
 .nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 9px 14px;
+
+  border-radius: 7px;
+
   text-decoration: none;
-  color: #555;
+
+  color: #4b5563;
+
+  font-size: 14px;
   font-weight: 500;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
+
+
+/* Icons */
+
+.nav-links a i {
+  font-size: 14px;
+}
+
+
+/* Hover */
 
 .nav-links a:hover {
+  background: #eff6ff;
+
   color: #2563eb;
 }
 
+
+/* Active route */
+
 .nav-links a.active {
+  background: #eff6ff;
+
   color: #2563eb;
+
+  font-weight: 600;
+}
+
+
+/* User section */
+
+.user-section {
+  min-width: 140px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 12px;
+}
+
+
+.user-name {
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* Logout */
+
+.logout-button {
+  padding: 6px 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #fef2f2;
+
+  border-color: #fca5a5;
+
+  color: #b61f1f;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-links a {
+    padding: 8px 10px;
+  }
+
+  .user-section {
+    min-width: auto;
+  }
+
+  .user-name {
+    display: none;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .navbar {
+    height: auto;
+
+    min-height: 65px;
+
+    padding: 12px 16px;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+  }
+
+  .nav-links {
+    order: 3;
+
+    width: 100%;
+
+    justify-content: center;
+  }
+
 }
